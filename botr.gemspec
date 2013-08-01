@@ -19,5 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rspec', '~> 2.4'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
+  gem.add_development_dependency 'watchr', '~> 0.7'
   gem.add_development_dependency 'yard', '~> 0.8'
 end
