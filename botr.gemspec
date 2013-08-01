@@ -4,7 +4,7 @@ require File.expand_path('../lib/botr/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = "botr"
-  gem.version       = Botr::VERSION
+  gem.version       = BOTR::VERSION
   gem.summary       = %q{TODO: Summary}
   gem.description   = %q{TODO: Description}
   gem.license       = "MIT"
