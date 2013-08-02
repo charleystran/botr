@@ -7,10 +7,13 @@ begin
   gem 'rubygems-tasks', '~> 0.2'
   require 'rubygems/tasks'
 
-  Gem::Tasks.new
+  Gem::Tasks.new do |tasks|
+    tasks.console.command = 'pry'
+  end
 rescue LoadError => e
   warn e.message
   warn "Run `gem install rubygems-tasks` to install Gem::Tasks."
+  warn "Run `gem install pry` to use the console command."
 end
 
 begin
