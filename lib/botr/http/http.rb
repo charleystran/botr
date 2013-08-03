@@ -62,18 +62,13 @@ module BOTR
         end
 
         def post_request(params = {})
-            @errors ||= {}
             random = self.class.salt
-            data = self.class.validate(params.merge(:errors => @errors))
-            if @errors.empty?
-                client.post(api_url, data.merge(:api_format		=> api_format,
-                                                :api_key		=> api_key,
-                                                :api_timestamp	=> api_timestamp,
-                                                :api_nonce		=> api_nonce,
-                                                :api_signature	=> self.class.signature(random, secret_key)))
-            else
-                @errors
-            end
+            
+            client.post(api_url, params.merge(:api_format		=> api_format,
+                                              :api_key		    => api_key,
+                                              :api_timestamp	=> api_timestamp,
+                                              :api_nonce		=> api_nonce,
+                                              :api_signature	=> self.class.signature(random, secret_key)))
         end
 
         module ClassMethods
