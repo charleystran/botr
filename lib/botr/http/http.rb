@@ -62,13 +62,13 @@ module BOTR
         end
 
         def post_request(params = {})
-            random = self.class.salt
+
+            params = params.merge(:api_format       => api_format,
+                                  :api_key          => api_key,
+                                  :api_timestamp    => api_timestamp,
+                                  :api_nonce        => api_nonce)
             
-            client.post(api_url, params.merge(:api_format		=> api_format,
-                                              :api_key		    => api_key,
-                                              :api_timestamp	=> api_timestamp,
-                                              :api_nonce		=> api_nonce,
-                                              :api_signature	=> self.class.signature(random, secret_key)))
+            client.post(api_url, params.merge(:api_signature => self.signature(params)))
         end
 
         module ClassMethods
@@ -113,7 +113,7 @@ module BOTR
             end
 
             def http_backend
-	            require 'kayako_client/http/net_http'
+	            require 'botr/http/http_backend'
 	            @@http_backend ||= BOTR::HTTPBackend  
             end
 
@@ -126,7 +126,6 @@ module BOTR
             end
 
             def get_request(options = {})
-                random = salt
                 params = options.dup
 
                 http      = params.delete(:client)        || client
@@ -137,15 +136,15 @@ module BOTR
                 nonce     = params.delete(:api_nonce)     || api_nonce
                 secret    = params.delete(:secret_key)    || secret_key
 
-                http.get(url, params.merge(:api_format		=> api_format,
-                                           :api_key		    => api_key,
-                                           :api_timestamp	=> api_timestamp,
-                                           :api_nonce		=> api_nonce,
-                                           :api_signature	=> self.class.signature(random, secret_key)))
+                params = params.merge(:api_format    => api_format,
+                                      :api_key       => api_key,
+                                      :api_timestamp => api_timestamp,
+                                      :api_nonce     => api_nonce)
+
+                http.get(url, params.merge(:api_signature => self.signature(params)))
             end
 
             def post_request(options = {})
-                random = salt
                 params = options.dup
 
                 http      = params.delete(:client)        || client
@@ -156,11 +155,12 @@ module BOTR
                 nonce     = params.delete(:api_nonce)     || api_nonce
                 secret    = params.delete(:secret_key)    || secret_key
 
-                http.post(url, params.merge(:api_format		=> api_format,
-                                            :api_key		=> api_key,
-                                            :api_timestamp	=> api_timestamp,
-                                            :api_nonce		=> api_nonce,
-                                            :api_signature	=> self.class.signature(random, secret_key)))
+                params = params.merge(:api_format    => api_format,
+                                      :api_key       => api_key,
+                                      :api_timestamp => api_timestamp,
+                                      :api_nonce     => api_nonce)
+
+                http.post(url, params.merge(:api_signature => self.signature(params)))
             end
 
         end
