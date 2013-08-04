@@ -50,25 +50,26 @@ describe BOTR::HTTPBackend do
 		
 		before :each do
 			@http.stub!(:post_form).and_return(@resp)
-			@http.stub!(:post_multipart).and_return(@resp)
+			@http.stub!(:request).and_return(@resp)
 			@resp.stub!(:code).and_return(200)
 			@resp.stub!(:body).and_return("")
 		end
 
-		it "should sent HTTP POST request" do
+		it "should send HTTP POST request" do
 			@http.should_receive(:post_form).with(an_instance_of(URI::HTTP), {})
 			subject.post('http://www.example.com/')
 		end
 
-		it "should sent HTTP POST request with params" do
+		it "should send HTTP POST request with params" do
 			@http.should_receive(:post_form).with(an_instance_of(URI::HTTP), {:field1 => "value1", :field2 => "value2"})
 			subject.post('http://www.example.com/',
 				{:field1 => "value1", :field2 => "value2"})
 		end
 
-		it "should sent HTTP POST request with data" do
-			@http.should_receive(:post_multipart).with(an_instance_of(URI::HTTP), 'foo/bar.ext')
-			subject.post('http://www.example.com/', {}, 'foo/bar.ext')
+		it "should send HTTP POST request with data" do
+			@http.should_receive(:request).with(an_instance_of(Net::HTTP::Post))
+			test_path = __dir__ + "/test.txt"
+			subject.post('http://www.example.com/', {}, test_path)
 		end
 
 		it "should return HTTP response" do
@@ -77,6 +78,7 @@ describe BOTR::HTTPBackend do
 			res.status.should eql 200
 			res.body.should be_empty
 		end
+
 	end
 
 end

@@ -5,17 +5,14 @@ module BOTR
 
 	class HTTPBackend
 
-		def initialize(host: "http://api.bitsontherun.com/", port: 80, username: "", password: "")
-			@client = Net::HTTP::Proxy(host, port, username, password)
-		end
-
 		# GET request.
 		def get(path, params = {})
 			uri = URI(path)
 			uri.query = URI.encode_www_form(params)
 			
-			@client.use_ssl = true if uri.is_a?(URI::HTTPS)
-			res = @client.get_response(uri)
+			res = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+				http.request_get uri
+			end
 			respond(res)
 		end
 
@@ -24,12 +21,11 @@ module BOTR
 			uri = URI(path)
 			uri.query = URI.encode_www_form(params)
 
-			@client.use_ssl = true if uri.is_a?(URI::HTTPS)
-			res = @client.start(uri.host, uri.port) do |req|
+			res = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
 				if data_path.empty?
-					req.post_form(uri, params)
+					http.post_form(uri, params)
 				else
-					req.post_multipart(uri, data_path)
+					post_multipart(http, uri, data_path)
 				end
 			end
 			respond(res)
@@ -56,16 +52,15 @@ module BOTR
 	            end
 			end
 
-			def post_multipart(uri, data_path)
+			def post_multipart(http, uri, data_path)
 				boundary = "--BitsOnTheRunMultipartBoundary--" + rand(1000000).to_s
 				
 				req = Net::HTTP::Post.new(uri)
 				req["Content-Type"] = "multipart/form-data, boundary=#{boundary}"
 				req.body_stream = build_stream(boundary, data_path)
+				req["Content-Length"] = req.body_stream.size
 
-				res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
-
-				return res
+				http.request(req)
 			end
 
 			def build_stream(boundary, data_path)
@@ -77,11 +72,11 @@ module BOTR
 				begin
 					bodyIO = File.open(data_path)
 				rescue Exception => e
-					
+					raise #{e}
 				end
 				tailIO = build_tail(boundary)
 
-				stream = BOTR::UploadIO.new(headIO, bodyIO, tailIO)
+				BOTR::UploadIO.new(headIO, bodyIO, tailIO)
 			end
 
 			def build_head(boundary, name, data_path, content_type, content_length)
@@ -100,6 +95,7 @@ module BOTR
 			end
 
 			def build_tail(boundary)
+				tail = ""
 				tail << "\r\n\r\n"
 				tail << "--#{boundary}--\r\n\r\n"
 
