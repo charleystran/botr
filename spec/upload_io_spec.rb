@@ -20,12 +20,30 @@ describe BOTR::UploadIO do
 			res = @uploadIO.read
 			res.should eql @text.join("")
   		end
+	end
 
-  		it "should close all streams when done" do
-  			@uploadIO.read
-  			@a.closed?.should be_true
-  			@b.closed?.should be_true
-  			@c.closed?.should be_true
+	describe "#size" do
+		it "should return the number of bytes" do
+			len = @text.map { |e| e.length }.reduce(:+)
+			@uploadIO.size.should eql len
+		end
+	end
+
+	describe "#rewind" do
+		it "should position io to the beginning" do
+			@uploadIO.read
+			@uploadIO.read.should eql ""
+			@uploadIO.rewind
+			@uploadIO.read.should eql @text.join("")
+		end
+	end
+
+	describe "#close" do
+		it "should close all IO streams" do
+			@uploadIO.close
+			@a.closed?.should be_true
+			@b.closed?.should be_true
+			@c.closed?.should be_true
   		end
 	end
 
