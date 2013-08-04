@@ -1,6 +1,6 @@
 module BOTR	
 
-	class UploadIO
+	class MultipartIO
 
   		def initialize(*ios)
     		@ios = ios

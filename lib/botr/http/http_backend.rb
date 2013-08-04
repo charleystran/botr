@@ -76,7 +76,7 @@ module BOTR
 				end
 				tailIO = build_tail(boundary)
 
-				BOTR::UploadIO.new(headIO, bodyIO, tailIO)
+				BOTR::MultipartIO.new(headIO, bodyIO, tailIO)
 			end
 
 			def build_head(boundary, name, data_path, content_type, content_length)
