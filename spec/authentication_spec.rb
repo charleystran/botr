@@ -3,7 +3,7 @@ require 'botr/api/authentication'
 
 class DummyClient 
 
-	def secret
+	def api_secret_key
 		"uA96CFtJa138E2T5GhKfngml"
 	end
 
