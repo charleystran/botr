@@ -16,7 +16,7 @@ module BOTR
     		# URL encode params
     		str_params = URI.encode_www_form(sorted_params)
 
-    		Digest::SHA1.hexdigest str_params + secret
+    		Digest::SHA1.hexdigest str_params + api_secret_key
     	end
 
 	end 
