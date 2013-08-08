@@ -31,7 +31,7 @@ module BOTR
 			params = options.dup
 
 			http      = params.delete(:client)        || client
-			url       = params.delete(:upload_url)    || upload_url
+			url       = params.delete(:api_url)    	  || upload_url
 			format    = params.delete(:api_format)    || api_format
 			key       = params.delete(:upload_key)    || @upload_key
 			token     = params.delete(:upload_token)  || @upload_token
