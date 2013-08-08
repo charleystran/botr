@@ -10,6 +10,15 @@ RSpec::Matchers.define :a_uri_path_of do |expected|
   end
 end
 
+RSpec::Matchers.define :a_POST_request_with_path do |expected|
+  match do |actual|
+    (actual.should be_a_kind_of Net::HTTP::Post) && (actual.instance_variable_get('@path').should eql expected)
+  end
+  description do
+    "a Net::HTTP::Post request with path '#{expected}'"
+  end
+end
+
 describe BOTR::HTTPBackend do
 
 	before :each do
@@ -56,12 +65,12 @@ describe BOTR::HTTPBackend do
 		end
 
 		it "should send HTTP POST request" do
-			@http.should_receive(:post_form).with(an_instance_of(URI::HTTP), {})
+			@http.should_receive(:request).with(an_instance_of(Net::HTTP::Post))
 			subject.post('http://www.example.com/')
 		end
 
 		it "should send HTTP POST request with params" do
-			@http.should_receive(:post_form).with(an_instance_of(URI::HTTP), {:field1 => "value1", :field2 => "value2"})
+			@http.should_receive(:request).with(a_POST_request_with_path("/?field1=value1&field2=value2"))
 			subject.post('http://www.example.com/',
 				{:field1 => "value1", :field2 => "value2"})
 		end
