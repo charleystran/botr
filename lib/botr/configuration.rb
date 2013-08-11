@@ -11,7 +11,7 @@ module BOTR
 
 	class Configuration
 
-		attr_accessor :protocol, :server, :key, :secret_key
+		attr_accessor :protocol, :server, :api_key, :secret_key
 
 	end
 
