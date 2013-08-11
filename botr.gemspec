@@ -5,8 +5,8 @@ require File.expand_path('../lib/botr/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = "botr"
   gem.version       = BOTR::VERSION
-  gem.summary       = %q{TODO: Summary}
-  gem.description   = %q{TODO: Description}
+  gem.summary       = %q{A ruby API kit for Bits on the Run.}
+  gem.description   = %q{A ruby API kit that manages the authentication, serialization and sending of API calls to the Bits on the Run online video platform.}
   gem.license       = "MIT"
   gem.authors       = ["bertrandk"]
   gem.email         = "b.karerangabo@gmail.com"
