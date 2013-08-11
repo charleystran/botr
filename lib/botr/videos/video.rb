@@ -44,8 +44,28 @@ module BOTR
 			#  with these tags (multiple tags should be comma-separated)
 			# @option options [String] tags_mode tags search mode: "all" -- a
 			#  video will only be listed if it has all tags specified in the
-			#  tags parameter or "any" -- A video will be listed if it has at
+			#  tags parameter or "any" -- a video will be listed if it has at
 			#  least one tag specified in the tags parameter
+			# @option options [String] search case-insensitive search in the
+			#  author, description, link, md5, tags, title and video_key fields
+			# @option options [String] mediatypes_filter list only videos with
+			#  the specified media types: "unknown", "audio", "video"
+			# @option options [String] statuses_filter list only videos with the
+			#  specified statuses: "created", "processing", "ready", "updating",
+			#  "failed"
+			# @option options [String] order_by specifies parameters by which
+			#  returned result should be ordered; ":asc" and ":desc" can be
+			#  appended accordingly
+			# @option options [Integer] start_date video creation date starting
+			#  from which videos list should be returned as a UNIX timestamp
+			# @option options [Integer] end_date video creation date until
+			#  (and including) which videos list should be returned as a UNIX
+			#  timestamp
+			# @option options [Integer] result_limit specifies maximum number of
+			#  videos to return; default is 50 and maximum result limit is 1000
+			# @option options [Integer] result_offset specifies how many videos
+			#  should be skipped at the beginning of the result set; default is
+			#  0.
 			#
 			# @return [Array] a list of video object matching the search
 			#  criteria
@@ -64,7 +84,7 @@ module BOTR
 
 			# Return a list of all videos.
 			#
-			# @note Same as calling list with no arguments given.
+			# @note Same as calling `list` with no arguments given.
 			def all
 				list({})
 			end
@@ -101,6 +121,25 @@ module BOTR
 			end		
 		end
 
+		# Create a new video by sending metadata and requesting an upload URL.
+		#
+		# @param [Hash] options video parameters
+		#
+		# @option options [String] title title of the video
+		# @option options [String] tags tags for the video; multiple tags should
+		#  be comma-separated
+		# @option options [String] description description of the video
+		# @option options [String] author author of the video
+		# @option options [Integer] date video creation date as UNIX timestamp
+		# @option options [String] link the URL of the web page where this video
+		#  is published
+		# @option options [String] download_url URL from where to fetch a video
+		#  file; only URLs with the http protocol are supported
+		# @option options [String] md5 video file MD5 message digest
+		# @option options [Integer] size video file size
+		#
+		# @return [BOTR::Video] a video object with the parameters specified in
+		#  the options hash
 		def create(**options)
 			json = get_request(options.merge(:method => 'create'))
 			res = JSON.parse(json.body)
@@ -127,6 +166,25 @@ module BOTR
 			return self
 		end
 
+		# Update the properties of a video.
+		#
+		# @param [Hash] options video parameters
+		#
+		# @option options [String] title title of the video
+		# @option options [String] tags tags for the video; multiple tags should
+		#  be comma-separated
+		# @option options [String] description description of the video
+		# @option options [String] author author of the video
+		# @option options [Integer] date video creation date as UNIX timestamp
+		# @option options [String] link the URL of the web page where this video
+		#  is published
+		# @option options [String] download_url URL from where to fetch a video
+		#  file; only URLs with the http protocol are supported
+		# @option options [String] md5 video file MD5 message digest
+		# @option options [Integer] size video file size
+		#
+		# @return [BOTR::Video] a new object with the properties of the
+		#  video referenced by the options hash
 		def update(**options)
 			json = put_request(options.merge(:video_key => @key))
 			res = JSON.parse(json.body)
@@ -140,6 +198,9 @@ module BOTR
 			return self
 		end
 
+		# Remove a video and all of its conversions from the server.
+		#
+		# @return [BOTR::Video] a new object with null properties
 		def delete
 			json = delete_request({:video_key => @key})
 			res = JSON.parse(json.body)
