@@ -1,14 +1,27 @@
 module BOTR
 
+	# The BOTR::VideoConversion class calls are used to create, search for and
+	# delete individual video files (conversions) inside a video object.
+	#
+	# A conversion is always created by applying a transcoding template to a
+	# video. A template contains information for the dimensions, bitrate and
+	# watermark of the resulting conversion.
 	class VideoConversion < BOTR::Object
 
 		class << self
 
 			attr_reader :last_status
 
-			def show(key)
+			# Show video conversion information.
+			#
+ 			# @param [String] conversion_key key of the conversion for which to
+ 			#  show information
+ 			#
+ 			# @return [BOTR::VideoConversion] a new object with the properties
+ 			#  of the conversion referenced by the conversion_key
+			def show(conversion_key)
 				json = get_request({:method => 'show',
-								    :conversion_key => key})
+								    :conversion_key => conversion_key})
 				res = JSON.parse(json.body)
 
 				if json.status == 200
@@ -22,9 +35,24 @@ module BOTR
 
 			alias :find :show
 
-			def list(key)
-				json = get_request({:method => 'list',
-									:video_key => key})
+			# List conversions for a given video.
+			#
+			# @param [String] video_key key of the video for which to list
+			# conversions
+			# @param [Hash] options result parameters
+			#
+			# @option options [Integer] result_limit specifies maximum number of
+			#  video conversions to return; default is 50 and maximum result
+			#  limit is 1000
+			# @option options [Integer] result_offset specifies how many video
+			#  conversions should be skipped at the beginning of the result set;
+			#  default is 0
+			#
+			# @return [Array] a list of video conversion objects for the given
+			#  video key
+			def list(key, **options)
+				json = get_request(options.merge(:method => 'list',
+												 :video_key => key))
 				res = JSON.parse(json.body)
 				
 				if json.status == 200
@@ -64,9 +92,18 @@ module BOTR
 				param = "@#{key.to_s}"
 				next unless methods.include? key.to_sym
 				instance_variable_set(param, val)
-			end		
+			end
 		end
 
+		# Create a new conversion of a video.
+		#
+		# @param [String] video_key key of the video for which conversion should
+		#  be created
+		# @param [String] template_key key of the conversion template that
+		#  should be used for this conversion.
+		#
+		# @return [BOTR::VideoConversion] this object with the properties
+		#  of the conversion referenced by the template_key
 		def create(video_key, template_key)
 			json = get_request({:method => 'create',
 								:video_key => video_key,
@@ -82,6 +119,9 @@ module BOTR
 			return self
 		end
 
+		# Delete a video conversion from the CDN.
+		#
+		# @return [BOTR::VideoConversion] this object with null properties
 		def delete
 			json = delete_request({:conversion_key => @key})
 			res = JSON.parse(json.body)

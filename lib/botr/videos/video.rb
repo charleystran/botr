@@ -7,7 +7,6 @@ module BOTR
 	# A video object is a metadata container that actually contains multiple
 	# video files (conversions). It does _not_ reference the actual video file
 	# located on the content server.
-	#
 	class Video < BOTR::Object
 
 		class << self
@@ -65,9 +64,9 @@ module BOTR
 			#  videos to return; default is 50 and maximum result limit is 1000
 			# @option options [Integer] result_offset specifies how many videos
 			#  should be skipped at the beginning of the result set; default is
-			#  0.
+			#  0
 			#
-			# @return [Array] a list of video object matching the search
+			# @return [Array] a list of video objects matching the search
 			#  criteria
 			def list(**options)
 				json = get_request(options.merge(:method => 'list'))
@@ -138,8 +137,8 @@ module BOTR
 		# @option options [String] md5 video file MD5 message digest
 		# @option options [Integer] size video file size
 		#
-		# @return [BOTR::Video] a video object with the parameters specified in
-		#  the options hash
+		# @return [BOTR::Video] this video object with the parameters specified in
+		#  the options hash and an upload link
 		def create(**options)
 			json = get_request(options.merge(:method => 'create'))
 			res = JSON.parse(json.body)
@@ -183,7 +182,7 @@ module BOTR
 		# @option options [String] md5 video file MD5 message digest
 		# @option options [Integer] size video file size
 		#
-		# @return [BOTR::Video] a new object with the properties of the
+		# @return [BOTR::Video] this object with the properties of the
 		#  video referenced by the options hash
 		def update(**options)
 			json = put_request(options.merge(:video_key => @key))
@@ -200,7 +199,7 @@ module BOTR
 
 		# Remove a video and all of its conversions from the server.
 		#
-		# @return [BOTR::Video] a new object with null properties
+		# @return [BOTR::Video] this object with null properties
 		def delete
 			json = delete_request({:video_key => @key})
 			res = JSON.parse(json.body)
