@@ -1,14 +1,23 @@
 module BOTR
 
+	# The BOTR::ChannelThumbnail class contains calls that can be used to upload
+	# a preview image for a channel. Channels don’t have a thumb by default.
 	class ChannelThumbnail < BOTR::Object
 
 		class << self
 
 			attr_reader :last_status
 
-			def show(key)
+			# Show channel thumbnails creation status.
+			#
+ 			# @param [String] channel_key key of the channel for which to show
+ 			#  thumbnails creation status
+ 			#
+ 			# @return [BOTR::ChannelThumbnail] a new object with the thumbnail
+ 			#  properties of the channel referenced by the channel key
+			def show(channel_key)
 				json = get_request({:method => 'show',
-								    :channel_key => key})
+								    :channel_key => channel_key})
 				res = JSON.parse(json.body)
 
 				if json.status == 200
@@ -44,6 +53,9 @@ module BOTR
 			raise ArgumentError, "You must specify a channel key." if @key.nil?
 		end
 
+		# Update a channel thumbnail by uploading an image.
+		#
+		# @return [BOTR::ChannelThumbnail] this object with an upload URL
 		def update
 			json = put_request({:channel_key => @key})
 			res = JSON.parse(json.body)
