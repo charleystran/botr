@@ -56,10 +56,10 @@ module BOTR
  			# @params [Hash] options stats parameters
  			#
  			# @option options [Integer] start_date Unix timestamp of date
- 			#  from which videos views statistics should be start
+ 			#  from which video views statistics should be start
  			# @option options [Integer] end_date Unix timestamp of date
- 			#  on which videos views statistics should be end
- 			# @option options [String] list_by specifies videos views statistics
+ 			#  on which video views statistics should be end
+ 			# @option options [String] list_by specifies video views statistics
  			#  listing type: "video" or "day"
  			# @option options [String] order_by specifies parameters by which
  			#  returned result should be ordered; ":asc" and ":desc" can be
@@ -68,7 +68,7 @@ module BOTR
 			#  author, description, link, md5, tags, title, video_key fields and
 			#  custom fields
 			# @option options [Integer] result_limit specifies maximum number
-			#  of videos to return: default is 50 and maximum result limit is 1000.
+			#  of videos to return: default is 50 and maximum result limit is 1000
 			# @option options [Integer] result_offset specifies how many videos
 			#  should be skipped at the beginning of the result set
  			# @option options [String] aggregate specifies if returned video
