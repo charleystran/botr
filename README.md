@@ -1,4 +1,4 @@
-# botr (BitsOnTheRun) [![Gem Version](https://badge.fury.io/rb/botr.png)](http://badge.fury.io/rb/botr)
+# botr (BitsOnTheRun) [![Gem Version](https://badge.fury.io/rb/botr.png)](http://badge.fury.io/rb/botr) [![Code Climate](https://codeclimate.com/github/bertrandk/botr.png)](https://codeclimate.com/github/bertrandk/botr)
 
 ## Requirements
 
