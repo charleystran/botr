@@ -12,7 +12,8 @@
 
 ## Description
 
-A ruby API kit that manages the authentication, serialization and sending of API calls to the Bits on the Run online video platform. 
+A ruby API kit that manages the authentication, serialization and sending of API  
+calls to the Bits on the Run online video platform. 
 
 ## Features
 
@@ -32,7 +33,9 @@ The botr gem includes support for the following Bits on the Run API classes:
 	  config.secret_key = "<botr_secret_key>"
 	end
 
-	NOTE: It is recommended to set the api key and the secret key as environment variables and reference them using the `ENV` hash (e.g. config.api_key = ENV["BOTR_API_KEY"]).
+	NOTE: It is recommended to set the api key and the secret key as environment  
+	variables and reference them using the `ENV` hash  
+	(e.g. config.api_key = ENV["BOTR_API_KEY"]).
 
 ### Videos
 
@@ -44,7 +47,8 @@ The botr gem includes support for the following Bits on the Run API classes:
 	vid.upload("/Users/Me/Movies/grumpy_kitty.mov")
 
 	# update the properties of a video
-	vid.update(title: "My super awesome cat video", description: "Mr. Snicker apparently doesn't like being filmed.")
+	vid.update(title: "My super awesome cat video", description: "Mr. Snicker  
+	apparently doesn't like being filmed.")
 
 	# delete a given video and all its conversions
 	vid.delete
@@ -79,7 +83,8 @@ The botr gem includes support for the following Bits on the Run API classes:
 	thumb = BOTR::VideoThumbnail.show("<video_key>")
 
 	# update a video's thumbnail
-	thumb.update(position: 7.25) # updates the video's thumbnail to the image at 7.25 seconds
+	thumb.update(position: 7.25) # updates the video's thumbnail to the image at  
+	7.25 seconds
 
 	# upload a new video thumbnail
 	thumb.upload("/Users/Me/Pictures/snicker_smiles.png")
@@ -149,7 +154,8 @@ The botr gem includes support for the following Bits on the Run API classes:
 	top_picks.create(title: "Trending", type: "automatic")
 
 	# add videos to a dynamic playlist
-	top_picks.update(description: "Top 10 videos", tags: "kitty", sort_order: "views-desc", videos_max: 10)
+	top_picks.update(description: "Top 10 videos", tags: "kitty",  
+	sort_order: "views-desc", videos_max: 10)
 
 	# delete a channel
 	top_picks.delete
@@ -188,7 +194,8 @@ The botr gem includes support for the following Bits on the Run API classes:
 	new_thumb.update
 	new_thumb.upload("/Users/Me/Pictures/splash.png")
 
-	# get the status of a video thumbnail creation (it takes about 10 seconds before a new thumbnail is ready to show)
+	# get the status of a video thumbnail creation (it takes about 10 seconds  
+		before a new thumbnail is ready to show)
 	thumb_stat = BOTR::ChannelThumbnail.show("<channel_key>")
 	thumb_stat.status # => "ready"
 
