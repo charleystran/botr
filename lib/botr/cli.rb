@@ -1,6 +1,8 @@
+require "thor"
+
 module BOTR
 
-	class CLI
+	class CLI < Thor
 	end
-	
+
 end
