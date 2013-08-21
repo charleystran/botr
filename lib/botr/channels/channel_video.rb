@@ -168,7 +168,7 @@ module BOTR
 		# @return [BOTR::ChannelVideo] this object with the status of the delete
 		#  operation and all other parameters nulled
 		def delete(channel_key, **options)
-			json = delete_request(options.merge(:channel_key => channel_key)
+			json = delete_request(options.merge(:channel_key => channel_key))
 			res = JSON.parse(json.body)
 
 			if json.status == 200
