@@ -1,5 +1,6 @@
 require 'botr/version'
 require 'botr/configuration'
+require 'botr/cli'
 
 require 'botr/common/logger'
 

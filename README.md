@@ -23,6 +23,13 @@ The botr gem includes support for the following Bits on the Run API classes:
 * channels (video playlists)
 * players (based on JW Player)
 
+## Command-line Usage
+
+	$ gem install botr
+	$ botr upload /path/to/video.mp4 -k <API_KEY> -s <API_SECRET>
+
+See `botr help` or `botr help upload` for more information.
+
 ## Examples
 
     require 'botr'
