@@ -21,7 +21,7 @@ module URI
 
   def self.decode_www_form_component(str, enc=Encoding::UTF_8)
     raise ArgumentError, "invalid %-encoding (#{str})" unless /\A[^%]*(?:%\h\h[^%]*)*\z/ =~ str
-    str.b.gsub(/\+|%\h\h/, TBLENCWWWCOMP__).force_encoding(enc)
+    str.b.gsub(/\+|%\h\h/, TBLDECWWWCOMP_).force_encoding(enc)
   end
 
 end
