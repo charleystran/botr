@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency 'thor', '~> 0.18.1'
+  gem.add_dependency 'thor', '~> 1.0.1'
 
   gem.add_development_dependency 'rspec', '~> 2.4'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
